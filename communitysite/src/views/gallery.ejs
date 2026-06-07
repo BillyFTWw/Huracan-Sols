@@ -1,0 +1,32 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gallery - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Gallery - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-center mt-5 mb-5 homecolumnfirsthr">
+            <h1>Our Gallery</h1>
+            <hr>
+            <div class="row justify-content-center">
+                <% gallery.forEach(function(item) { %>
+                    <div class="col-lg-3 mb-3">
+                        <a href="/images/gallery_<%= item.id %>.png" target="_blank">
+                            <img src="/images/gallery_<%= item.id %>.png" class="galleryimage">
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

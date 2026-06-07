@@ -1,0 +1,487 @@
+<%
+    function convertToText(item) {
+        if(item) {
+            return 'Yes';
+        } else {
+            return 'No';
+        };
+    };
+%>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin Panel - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Admin Panel - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-center mt-5 mb-5 homecolumnfirsthr">
+            <h1>Admin Panel</h1>
+            <hr>
+            <div class="row mb-4 justify-content-center">
+                <div class="col-lg-2 mb-3">
+                    <button onclick="switcheroo('settings')" type="button" class="btn btn-theme w-100">Site Settings</button>
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <button  onclick="switcheroo('users')" type="button" class="btn btn-theme w-100">User Manager</button>
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <button onclick="switcheroo('team')" type="button" class="btn btn-theme w-100">Team Manager</button>
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <button  onclick="switcheroo('apps')" type="button" class="btn btn-theme w-100">Form Manager</button>
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <button  onclick="switcheroo('feedback')" type="button" class="btn btn-theme w-100">Feedback Manager</button>
+                </div>
+                <div class="col-lg-2 mb-3">
+                    <button  onclick="switcheroo('custompages')" type="button" class="btn btn-theme w-100">Custom Pages</button>
+                </div>
+            </div>
+            <div id="settings" class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-4">Site Settings</h2>
+                <form action="/backend/update/settings" method="post" enctype="multipart/form-data">
+                    <div class="row text-start justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Site Name:</label>
+                            <input type="text" name="sitename" placeholder="Site name..." class="form-control" value="<%= sitesettings.sitename %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Site Color:</label>
+                            <input type="text" name="sitecolor" placeholder="Site color..." class="form-control" value="<%= sitesettings.sitecolor %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Navbar Color:</label>
+                            <input type="text" name="navbarcolor" placeholder="Navbar color..." class="form-control" value="<%= sitesettings.navbarcolor %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Background Color:</label>
+                            <input type="text" name="backgroundcolor" placeholder="Background color..." class="form-control" value="<%= sitesettings.backgroundcolor %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Discord Color:</label>
+                            <input type="text" name="discordcolor" placeholder="Discord color..." class="form-control" value="<%= sitesettings.discordcolor %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">FiveM Color:</label>
+                            <input type="text" name="fivemcolor" placeholder="FiveM color..." class="form-control" value="<%= sitesettings.fivemcolor %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">FiveM Server IP:</label>
+                            <input type="text" name="fivemserverip" placeholder="FiveM IP & Port..." class="form-control" value="<%= sitesettings.fivemserverip %>" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Discord Webhook:</label>
+                            <input type="text" name="webhook" placeholder="Discord Webhook URL..." class="form-control" value="<%= sitesettings.webhook %>" required>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="">Site Description:</label>
+                            <textarea name="sitedesc" class="form-control" placeholder="Site description..." rows="4" required><%= sitesettings.sitedesc %></textarea>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for=""><i class="fa-brands fa-markdown"></i> About Section:</label>
+                            <textarea name="about" class="form-control" placeholder="About section..." rows="5" required><%= sitesettings.about %></textarea>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for=""><i class="fa-brands fa-markdown"></i> Rules Section:</label>
+                            <textarea name="rules" class="form-control" placeholder="Rules section..." rows="5" required><%= sitesettings.rules %></textarea>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Site Logo (PNG)</label>
+                            <input type="file" accept="image/png" name="logo" class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Site Header (JPG)</label>
+                            <input type="file" accept="image/jpg" name="header" class="form-control" required>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <h3 class="bigfont mb-4">Prompt Manager</h3>
+                <form action="/backend/create/prompt" method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <input type="text" name="content" placeholder="Your prompt here..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Prompt</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.prompts.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.content %></td>
+                              <td class="text-end"><a href="/backend/delete/prompt/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+                <hr>
+                <h3 class="bigfont mb-4">FAQ Manager</h3>
+                <form action="/backend/create/faq" method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 mb-3">
+                            <input type="text" name="question" placeholder="Your question here..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <input type="text" name="answer" placeholder="Your answer here..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Question</th>
+                          <th scope="col">Answer</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.faq.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.question %></td>
+                              <td><%- item.answer %></td>
+                              <td class="text-end"><a href="/backend/delete/faq/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+                <hr>
+                <h3 class="bigfont mb-4">Gallery Manager</h3>
+                <form action="/backend/create/gallery" method="post" enctype="multipart/form-data">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <input type="file" name="galleryimage" accept="image/png" placeholder="Your prompt here..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Upload PNG Image</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.gallery.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td class="text-end"><a href="/images/gallery_<%= item.id %>.png" class="text-theme">View</a> | <a href="/backend/delete/gallery/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="users" style="display: none; visibility: hidden;" class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-4">User Manager</h2>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">Account ID</th>
+                          <th scope="col">Username</th>
+                          <th scope="col">Email</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.users.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.username %></td>
+                              <td><span class="censor"><%- item.email %></span></td>
+                              <td class="text-end"><a href="/backend/deleteuser/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+                <hr>
+                <h3 class="bigfont mb-4">Banned Users</h3>
+                <form action="/backend/create/banneduser" method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <input type="text" name="userid" placeholder="User ID..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">Account ID</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.bannedusers.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.userid %></td>
+                              <td class="text-end"><a href="/backend/delete/bannedusers/<%= item.userid %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+                <% if(isOwner) { %>
+                    <hr>
+                    <h3 class="bigfont mb-4">Staff Manager</h3>
+                    <form action="/backend/create/staff" method="post">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 mb-3">
+                                <input type="text" name="userid" placeholder="User ID..." class="form-control" required>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="customDiv">
+                        <table class="table table-bordered border-white text-white">
+                        <thead>
+                            <tr>
+                            <th scope="col">Account ID</th>
+                            <th scope="col" class="text-end">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.staff.forEach(function(item) { %>
+                            <tr>
+                                <td><%- item.userid %></td>
+                                <td class="text-end"><a href="/backend/delete/staff/<%= item.userid %>" class="text-danger">Delete</a></td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                        </table>
+                    </div>
+                <% }; %>
+            </div>
+            <div id="team" style="display: none; visibility: hidden;" class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-4">Team Manager</h2>
+                <form action="/backend/create/team" method="post" enctype="multipart/form-data">
+                    <div class="row text-start justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Name:</label>
+                            <input type="text" name="name" placeholder="Name..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Title:</label>
+                            <input type="text" name="title" placeholder="Title..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Owner?:</label>
+                            <select name="isowner" class="form-control" required>
+                                <option value="no" selected>No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Team Member Logo (PNG):</label>
+                            <input type="file" name="logo" accept="image/png" placeholder="Logo..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="">About:</label>
+                            <textarea name="about" placeholder="About..." class="form-control" required rows="3"></textarea>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">isOwner?</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.team.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.name %></td>
+                              <td><%- item.title %></td>
+                              <td><%- convertToText(item.isowner) %></td>
+                              <td class="text-end"><a href="/backend/delete/team/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="apps" style="display: none; visibility: hidden;" class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-4">Form Manager</h2>
+                <form action="/backend/create/application" method="post" enctype="multipart/form-data">
+                    <div class="row text-start justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <input type="text" name="name" placeholder="Application name..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Closed</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.applications.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.name %></td>
+                              <td><%- convertToText(item.closed) %></td>
+                              <td class="text-end"><a href="/backend/toggleclosed/application/<%= item.id %>" class="text-secondary">Toggle Closed</a> | <a href="/responses/<%= item.id %>" class="text-warning">Responses</a> | <a href="/edit/application/<%= item.id %>" class="text-primary">Edit</a> | <a href="/backend/delete/application/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="feedback" style="display: none; visibility: hidden;" class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-4">Feedback Manager</h2>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">Email</th>
+                          <th scope="col">Content</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.feedback.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.email %></td>
+                              <td><%- item.content %></td>
+                              <td class="text-end"><a href="/backend/delete/feedback/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="custompages" style="display: none; visibility: hidden;" class="bg-navbar p-3 borderradius">
+                <h2 class="bigfont mb-4">Custom Pages</h2>
+                <form action="/backend/create/custompage" method="post">
+                    <div class="row text-start justify-content-center">
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Link:</label>
+                            <input type="text" name="link" placeholder="Link..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="">Title:</label>
+                            <input type="text" name="title" placeholder="Title..." class="form-control" required>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for=""><i class="fa-brands fa-markdown"></i> Content:</label>
+                            <textarea name="content" placeholder="Content..." class="form-control" required rows="7"></textarea>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <button type="submit" class="btn btn-theme w-100">Create Item</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div class="customDiv">
+                    <table class="table table-bordered border-white text-white">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Link</th>
+                          <th scope="col">Title</th>
+                          <th scope="col" class="text-end">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% data.custompages.forEach(function(item) { %>
+                          <tr>
+                              <td><%- item.id %></td>
+                              <td><%- item.link %></td>
+                              <td><%- item.title %></td>
+                              <td class="text-end"><a href="/backend/delete/custompage/<%= item.id %>" class="text-danger">Delete</a></td>
+                          </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+        <script>
+            var settings = document.getElementById('settings');
+            var users = document.getElementById('users');
+            var team = document.getElementById('team');
+            var apps = document.getElementById('apps');
+            var feedback = document.getElementById('feedback');
+            var custompages = document.getElementById('custompages');
+            function switcheroo(item) {
+                settings.style.display = 'none';
+                settings.style.visibility = 'hidden';
+                users.style.display = 'none';
+                users.style.visibility = 'hidden';
+                team.style.display = 'none';
+                team.style.visibility = 'hidden';
+                apps.style.display = 'none';
+                apps.style.visibility = 'hidden';
+                feedback.style.display = 'none';
+                feedback.style.visibility = 'hidden';
+                custompages.style.display = 'none';
+                custompages.style.visibility = 'hidden';
+                document.getElementById(item).style.display = 'block';
+                document.getElementById(item).style.visibility = 'visible';
+            };
+        </script>
+    </body>
+</html>

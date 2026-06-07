@@ -1,0 +1,24 @@
+{
+
+    "domain": "http://localhost:3000",
+    "port": 3000,
+    "debugMode": false,
+    "licenseKey": "YOUR_LICENSE_KEY (Useless)",
+    "seoKeywords": "expressjs, website, template",
+    "ownerIds": ["900000002000000"],
+
+    "sql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "database": "communitysite"
+    },
+
+    "discord": {
+        "oauthId": "YOUR_CLIENT_ID",
+        "oauthToken": "YOUR_CLIENT_SECRET",
+        "botToken": "YOUR_BOT_TOKEN",
+        "guildId": "YOUR_GUILD_ID"
+    }
+
+}

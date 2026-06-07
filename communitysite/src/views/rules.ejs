@@ -1,0 +1,26 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rules - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Rules - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container text-center mt-5 mb-5 homecolumnfirsthr">
+            <h1>Rules & Regulations</h1>
+            <hr>
+            <div class="text-start">
+                <%- sitesettings.rulesConverted %>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

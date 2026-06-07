@@ -1,0 +1,66 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Account - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Account - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="container bg-navbar p-3 mt-5 mb-4 text-start" style="border-radius: 0.4em;">
+            <h3 class="mb-3"><i class="fa-solid fa-id-card"></i> Account Information</h3>
+            <h6 class="mb-4"><code><%= user.username %> (<%= user.id %>)</code></h6>
+            <hr>
+            <form action="/backend/update/password" method="post">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 mb-2 mt-2">
+                        <input type="password" name="password" placeholder="New password..." required class="form-control inputstylelol bg-input-dark w-100">
+                    </div>
+                    <div class="col-lg-4 mb-2 mt-2">
+                        <input type="password" name="confpassword" placeholder="Confirm password..." required class="form-control inputstylelol bg-input-dark w-100">
+                    </div>
+                    <div class="col-lg-4 mb-2 mt-2">
+                        <button type="submit" class="btn btn-theme w-100"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+                    </div>
+                </div>
+            </form>
+            <small>Your Account ID does not ever change. It is unique to your account and cannot be replicated.</small>
+            <% if(isStaff) { %>
+                <hr>
+                <a href="/admin" class="btn btn-theme w-100"><i class="fa-solid fa-shield-halved"></i> Admin Panel</a>
+            <% }; %>
+            <hr>
+            <h3 class="bigfont mb-3">Submitted Applications</h3>
+            <div class="customDiv">
+                <table class="table table-bordered border-white text-white">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Application</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" class="text-end">Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% responses.forEach(function(item) { %>
+                      <tr>
+                          <td><%- item.id %></td>
+                          <td><%- item.appname %></td>
+                          <td><%- item.status %></td>
+                          <td class="text-end"><a href="/view/application/<%= item.id %>" class="text-primary">View</a></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        <%- include('_footer') %>
+    </body>
+</html>

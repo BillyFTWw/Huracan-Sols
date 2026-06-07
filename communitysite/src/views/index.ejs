@@ -1,0 +1,171 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Home - <%= sitesettings.sitename %></title>
+        <meta property="og:title" content="Home - <%= sitesettings.sitename %>" />
+        <link rel="icon" href="/assets/logo.png">
+        <meta property="og:image" content="/assets/logo.png">
+        <meta name="theme-color" content="<%= sitesettings.sitecolor %>">
+        <meta name="description" content="<%= sitesettings.sitedesc %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="<%= sitesettings.sitedesc %>" />
+        <meta name="keywords" content="<%= config.seoKeywords %>" />
+    </head>
+    <body>
+        <%- include('_header') %>
+        <div class="homepageheader">
+            <div class="maincontainer pt-5 pb-5">
+                <div class="row justify-content-center pb-5">
+                    <div class="mt-5 col-lg-8 mb-3 text-start textaligncentermobile homecolumnfirsthr">
+                        <h1 class="mt-4 bigfont"><%= sitesettings.sitename %></h1>
+                        <hr>
+                        <p class="mb-4"><%= sitesettings.sitedesc %></p>
+                        <div class="row justify-content-start">
+                            <div class="col-lg-3 mb-3">
+                                <div class="bg-navbar p-2 text-center borderround bordersetup bd-discord">
+                                    <h4 class="mt-2"><i class="fa-brands fa-discord"></i> <%= discordMembers %></h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <div class="bg-navbar p-2 text-center borderround bordersetup bd-fivem">
+                                    <h4 class="mt-2"><i class="fa-solid fa-server"></i> <%= reading %></h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <div class="bg-navbar p-2 text-center borderround bordersetup bd-theme">
+                                    <h4 class="mt-2"><i class="fa-solid fa-user"></i> <%= users.length.toLocaleString() %></h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <div class="bg-navbar custompaddingstats text-center borderround bordersetup bd-theme">
+                                    <h6 class="mt-2"><i class="fa-solid fa-user-plus"></i> <%= users.reverse()[0]?.username || 'none' %></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-3 text-end desktop">
+                        <img src="/assets/logo.png" class="homelogo" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-navbar w-100 pt-5 pb-5">
+            <div class="container">
+                <h1 class="bigfont pt-5 pb-4">
+                    <a href="" class="typewrite" data-period="500" data-type='<%= prompts %>'>
+                      <span class="wrap"></span>
+                    </a>
+                </h1>
+                <div class="text-center pb-5">
+                    <%- sitesettings.aboutConverted %>
+                </div>
+            </div>
+        </div>
+        <div class="bg-body pt-3 pb-5 megamargintop megamarginbottom">
+            <div class="container homecolumnfirsthr">
+                <h1>Frequently Asked Questions</h1>
+                <hr>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <% faq.forEach(function(item) { %>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-<%= item.id %>" aria-expanded="false" aria-controls="flush-collapseOne">
+                                <%= item.question %>
+                              </button>
+                            </h2>
+                            <div id="flush-<%= item.id %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                              <div class="accordion-body"><%= item.answer %></div>
+                            </div>
+                        </div>
+                    <% }); %>
+                  </div>
+            </div>
+        </div>
+        <div class="bg-navbar pt-3 pb-5">
+            <div class="footerimage">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 mb-3 text-start textaligncentermobile">
+                            <p class="footerheader">Site Pages</p>
+                            <p class="footeritem"><a href="/team">Our Team</a></p>
+                            <p class="footeritem"><a href="/rules">Our Rules</a></p>
+                            <p class="footeritem"><a href="/rules">Our Gallery</a></p>
+                        </div>
+                        <div class="col-lg-4 mb-3 text-center textaligncentermobile">
+                            <p class="footerheader">Our Forms</p>
+                            <p class="footeritem"><a href="/apply">Applications</a></p>
+                            <p class="footeritem"><a href="/feedback">Feedback</a></p>
+                            <p class="footeritem"><a href="/account">Account</a></p>
+                        </div>
+                        <div class="col-lg-4 mb-3 text-end textaligncentermobile">
+                            <p class="footerheader">Community Info</p>
+                            <p class="footeritem"><a href="/privacy">Privacy Policy</a></p>
+                            <p class="footeritem"><a href="/cookies">Cookie Policy</a></p>
+                            <p class="footeritem"><a href="/discord">Our Discord</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('_footer') %>
+        <script>
+            var TxtType = function(el, toRotate, period) {
+                this.toRotate = toRotate;
+                this.el = el;
+                this.loopNum = 0;
+                this.period = parseInt(period, 10) || 2000;
+                this.txt = '';
+                this.tick();
+                this.isDeleting = false;
+            };
+
+            TxtType.prototype.tick = function() {
+                var i = this.loopNum % this.toRotate.length;
+                var fullTxt = this.toRotate[i];
+
+                if (this.isDeleting) {
+                this.txt = fullTxt.substring(0, this.txt.length - 1);
+                } else {
+                this.txt = fullTxt.substring(0, this.txt.length + 1);
+                }
+
+                this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+                var that = this;
+                var delta = 200 - Math.random() * 100;
+
+                if (this.isDeleting) { delta /= 2; }
+
+                if (!this.isDeleting && this.txt === fullTxt) {
+                delta = this.period;
+                this.isDeleting = true;
+                } else if (this.isDeleting && this.txt === '') {
+                this.isDeleting = false;
+                this.loopNum++;
+                delta = 500;
+                }
+
+                setTimeout(function() {
+                that.tick();
+                }, delta);
+            };
+
+            window.onload = function() {
+                var elements = document.getElementsByClassName('typewrite');
+                for (var i=0; i<elements.length; i++) {
+                    var toRotate = elements[i].getAttribute('data-type');
+                    var period = elements[i].getAttribute('data-period');
+                    if (toRotate) {
+                    new TxtType(elements[i], JSON.parse(toRotate), period);
+                    }
+                }
+                // INJECT CSS
+                var css = document.createElement("style");
+                css.type = "text/css";
+                css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+                document.body.appendChild(css);
+            };
+        </script>
+    </body>
+</html>
